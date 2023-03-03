@@ -1,5 +1,10 @@
-﻿namespace UtmBuilder.Core.ValueObjects;
+﻿using UtmBuilder.Core.ValueObjects.Exceptions;
 
+namespace UtmBuilder.Core.ValueObjects;
+
+/// <summary>
+/// A UTM management class of campaigns
+/// </summary>
 public class Campaign : ValueObject
 {
     #region Public Constructors
@@ -24,10 +29,16 @@ public class Campaign : ValueObject
         Medium = medium;
         Name = name;
         Source = source;
+        
+        InvalidCampaignException.ThrowIfNull("Medium inválido.");
+        InvalidCampaignException.ThrowIfNull("Name inválido.");
+        InvalidCampaignException.ThrowIfNull("Source inválido.");
     }
 
     #endregion
-    
+
+    #region Public Properties
+
     /// <summary>
     /// Marketing medium (e.g. cpc, banner, email.
     /// </summary>
@@ -57,4 +68,6 @@ public class Campaign : ValueObject
     /// Identify the paid keywords.
     /// </summary>
     public string? Term { get; set; }
+
+    #endregion
 }

@@ -1,20 +1,12 @@
-﻿using System.Text.RegularExpressions;
+﻿using UtmBuilder.Core.ValueObjects.Exceptions;
 
 namespace UtmBuilder.Core.ValueObjects;
 
+/// <summary>
+/// Management of uniform resource locator properties
+/// </summary>
 public class Url : ValueObject
 {
-    #region Private Properties
-
-    private const string UrlRegexPattern =
-        @"[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)";
-    
-    private const string UrlRegexPatternWithHttpProtocol =
-        @"https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)";
-        
-
-    #endregion
-    
     #region Public Constructors
 
     /// <summary>
@@ -24,10 +16,7 @@ public class Url : ValueObject
     public Url(string address)
     {
         Address = address;
-
-        if (Regex.IsMatch(Address, UrlRegexPattern) ||
-            Regex.IsMatch(Address, UrlRegexPattern))
-            throw new FormatException();
+        InvalidUrlException.ThrowIfInvalidUrl(address);
     }
 
     #endregion
