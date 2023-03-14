@@ -29,10 +29,13 @@ public class Campaign : ValueObject
         Medium = medium;
         Name = name;
         Source = source;
+        Id = id;
+        Content = content;
+        Term = term;
         
-        InvalidCampaignException.ThrowIfNull("Medium inválido.");
-        InvalidCampaignException.ThrowIfNull("Name inválido.");
-        InvalidCampaignException.ThrowIfNull("Source inválido.");
+        InvalidCampaignException.ThrowIfNull(Medium, "Medium inválido.");
+        InvalidCampaignException.ThrowIfNull(Name, "Name inválido.");
+        InvalidCampaignException.ThrowIfNull(Source, "Source inválido.");
     }
 
     #endregion

@@ -17,12 +17,9 @@ public class Utm : Entity
     /// <param name="url">A link address to access the content</param>
     /// <param name="campaign">A campaign used to tracker data</param>
     public Utm(
-        Url url,
-        Campaign campaign)
-    {
-        Url = url;
-        Campaign = campaign;
-    }
+        Campaign campaign,
+        Url url)
+    => (Campaign, Url) = (campaign, url);
 
     #endregion
     
@@ -50,8 +47,8 @@ public class Utm : Entity
     {
         var segments = new List<string>();
         
-        segments.AddIfNotNull("utm_campaign", Campaign.Content);
-        segments.AddIfNotNull("utm_Id", Campaign.Id);
+        segments.AddIfNotNull("utm_content", Campaign.Content);
+        segments.AddIfNotNull("utm_id", Campaign.Id);
         segments.AddIfNotNull("utm_medium", Campaign.Medium);
         segments.AddIfNotNull("utm_campaign", Campaign.Name);
         segments.AddIfNotNull("utm_source", Campaign.Source);
@@ -92,7 +89,14 @@ public class Utm : Entity
         var source = pars.Where(source => source.StartsWith("utm_source")).FirstOrDefault().Split("=")[1];
         var term = pars.Where(term => term.StartsWith("term")).FirstOrDefault().Split("=")[1];
 
-        return new Utm(new Url(segments[0]), new Campaign(content, id, medium, name, source, term));
+        return new Utm(
+            new Campaign(
+                content,
+                id,
+                medium,
+                name,
+                source, term),
+            new Url(segments[0]));
     }
 
     #endregion
